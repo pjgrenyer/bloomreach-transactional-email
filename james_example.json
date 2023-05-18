@@ -1,0 +1,46 @@
+{
+    "integration_id": "646355a20a04b7eba079a157",
+    "email_content": {
+        "template_id": "64653647e1a2f69f105fbd54",
+        "sender_address": "testing@test.exponea.mail",
+        "sender_name": "Haven Holidays",
+        "params": {
+            "first_name": "James",
+            "order_number": "123456",
+            "billing": {
+                "address1": "1 London Road",
+                "address2": "",
+                "city": "Gloucester",
+                "postcode": "GL1 1AA"
+            },
+            "delivery": {
+                "address1": "1 London Road",
+                "address2": "",
+                "city": "Gloucester",
+                "postcode": "GL1 1AA"
+            },
+            "currency_symbol": "£",
+            "order_total": 1198,
+            "order_lines": [
+                {
+                    "image": "https://images.ctfassets.net/ob1psfsvxnrx/7KFw6N8k1QPbDtJH07puhK/18c84ae56856220fc553e80af4cfb1c7/br_beach_01_2022_rgb_xl.jpg",
+                    "title": "Burhnam on Sea",
+                    "price": 899
+                },
+                {
+                    "image": "https://images.ctfassets.net/ob1psfsvxnrx/3gcFOiUgFSeBmA3v0QTakF/52ec9e7795cf78ad25a358faacc30bf1/cf_lodgeext_04_2022.jpg",
+                    "title": "Diamond Lodge",
+                    "price": 299
+                }
+            ]
+        }
+    },
+    "campaign_name": "Order Confirmation",
+    "recipient": {
+        "email": "paul.grenyer@gmail.com",
+        "customer_ids": {
+            "HavenID": "paul.grenyer@gmail.com"
+        }
+    },
+    "transfer_identity": "enabled"
+}
