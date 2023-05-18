@@ -7,7 +7,8 @@
         "prepare": "husky install",
         "build": "rimraf dist && tsc",
         "dev": "npm run build && node dist/index.js",
-        "test": "jest --coverage",
+        "test": "jest --coverage --testPathIgnorePatterns='integration.*'",
+        "test-integration": "jest --testRegex='integration.*'",
         "format": "prettier --write 'src/**/*.ts' 'test/**/*.ts' './*.js' './*.json' '!./package-lock.json'",
         "lint": "eslint . --ext .ts"
     },
