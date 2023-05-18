@@ -7,12 +7,12 @@ export interface Auth {
 }
 
 export interface HtmlContent {
-    html?: string;
-    subject?: string;
+    html: string;
+    subject: string;
 }
 
 export interface TemplateContent {
-    templateId?: string;
+    templateId: string;
     params?: any;
 }
 
@@ -29,16 +29,21 @@ export const sendEmail = async (
     integrationId: string,
     senderAddress: string,
     senderName: string,
-    emailContent: HtmlContent & TemplateContent,
+    emailContent: HtmlContent | TemplateContent,
     options?: Options
 ) => {
     const body = {
         integration_id: integrationId,
         email_content: {
-            html: emailContent.html,
-            subject: emailContent.subject,
-            template_id: emailContent.templateId,
-            params: emailContent.params,
+            ...('templateId' in emailContent
+                ? {
+                      template_id: emailContent.templateId,
+                      params: emailContent.params,
+                  }
+                : {
+                      html: emailContent.html,
+                      subject: emailContent.subject,
+                  }),
             sender_address: senderAddress,
             sender_name: senderName,
         },

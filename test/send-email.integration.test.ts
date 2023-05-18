@@ -25,6 +25,10 @@ describe('send email', () => {
             {
                 html: '<!DOCTYPEhtml><body>Hello world</body></html>',
                 subject: 'SubjectExample',
+            },
+            {
+                language: 'en',
+                transferIdentity: 'disabled',
             }
         );
 
