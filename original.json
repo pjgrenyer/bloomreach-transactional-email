@@ -1,0 +1,23 @@
+{
+    "integration_id": "646355a20a04b7eba079a157",
+    "email_content": {
+        "html": "<!DOCTYPEhtml><body>Hello world</body></html>",
+        "subject": "SubjectExample",
+        "sender_address": "marian@exponea.com",
+        "sender_name": "Marian"
+    },
+    "campaign_name": "MyCampaign",
+    "recipient": {
+        "customer_ids": {
+            "HavenID": "3232eroofs23fsdsd"
+        },
+        "email": "paul.grenyer@gmail.com",
+        "language": "en"
+    },
+    "settings": {
+        "custom_event_properties": {
+            "banana": "yellow"
+        }
+    },
+    "transfer_identity": "enabled"
+}
