@@ -1,2 +1,2 @@
 # bloomreach-transactional-email 
-A template node typescript project
+A nonofficial client library for sending transactional emails via Bloomreac
