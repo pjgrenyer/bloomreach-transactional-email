@@ -17,6 +17,7 @@ export interface TemplateContent {
 }
 
 export interface Options {
+    integrationId: string;
     language?: string;
     transferIdentity?: 'enabled' | 'disabled' | 'first_click';
 }
@@ -26,14 +27,13 @@ export const sendEmail = async (
     campaignName: string,
     email: string,
     customerIds: any,
-    integrationId: string,
     senderAddress: string,
     senderName: string,
     emailContent: HtmlContent | TemplateContent,
     options?: Options
 ) => {
     const body = {
-        integration_id: integrationId,
+        integration_id: options?.integrationId,
         email_content: {
             ...('templateId' in emailContent
                 ? {

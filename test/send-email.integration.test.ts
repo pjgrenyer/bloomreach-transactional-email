@@ -19,7 +19,6 @@ describe('send email', () => {
             {
                 HavenID: '3232eroofs23fsdsd',
             },
-            INTERGRATION_ID as string,
             SENDER_EMAIL as string,
             SENDER_NAME as string,
             {
@@ -27,6 +26,7 @@ describe('send email', () => {
                 subject: 'SubjectExample',
             },
             {
+                integrationId: INTERGRATION_ID as string,
                 language: 'en',
                 transferIdentity: 'disabled',
             }
@@ -43,7 +43,6 @@ describe('send email', () => {
             {
                 HavenID: '3232eroofs23fsdsd',
             },
-            INTERGRATION_ID as string,
             SENDER_EMAIL as string,
             SENDER_NAME as string,
             {
@@ -78,6 +77,9 @@ describe('send email', () => {
                         },
                     ],
                 },
+            },
+            {
+                integrationId: INTERGRATION_ID as string,
             }
         );
 
