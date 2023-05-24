@@ -1,6 +1,6 @@
 {
     "name": "bloomreach-transactional-email",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "A nonofficial client library for sending transactional emails via Bloomreach",
     "main": "index.js",
     "scripts": {
