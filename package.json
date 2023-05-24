@@ -18,8 +18,9 @@
         "url": "git+https://github.com/pjgrenyer/bloomreach-transactional-email.git"
     },
     "keywords": [
-        "node",
-        "typescript"
+        "bloomreach",
+        "email",
+        "transactional"
     ],
     "author": "Paul Grenyer",
     "license": "SEE LICENSE IN LICENSE",
