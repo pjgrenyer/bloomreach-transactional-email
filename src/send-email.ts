@@ -3,6 +3,7 @@ import axios from 'axios';
 export interface Auth {
     username: string;
     password: string;
+    baseUrl: string;
     projectToken: string;
 }
 
@@ -16,24 +17,25 @@ export interface TemplateContent {
     params?: any;
 }
 
+export interface Integration {
+    id: string;
+    senderAddress: string;
+}
+
 export interface Options {
-    integrationId: string;
+    integrationId?: string;
+    integrations?: Integration[]; // max 2
+    email?: string;
     language?: string;
+    senderAddress?: string;
+    senderName?: string;
     transferIdentity?: 'enabled' | 'disabled' | 'first_click';
 }
 
-export const sendEmail = async (
-    auth: Auth,
-    campaignName: string,
-    email: string,
-    customerIds: any,
-    senderAddress: string,
-    senderName: string,
-    emailContent: HtmlContent | TemplateContent,
-    options?: Options
-) => {
+export const sendEmail = async (auth: Auth, campaignName: string, customerIds: any, emailContent: HtmlContent | TemplateContent, options?: Options) => {
     const body = {
         integration_id: options?.integrationId,
+        integrations: options?.integrations?.map((integration) => ({ id: integration.id, sender_address: integration.senderAddress })),
         email_content: {
             ...('templateId' in emailContent
                 ? {
@@ -44,13 +46,13 @@ export const sendEmail = async (
                       html: emailContent.html,
                       subject: emailContent.subject,
                   }),
-            sender_address: senderAddress,
-            sender_name: senderName,
+            sender_address: options?.senderAddress,
+            sender_name: options?.senderName,
         },
         campaign_name: campaignName,
         recipient: {
             customer_ids: customerIds,
-            email,
+            email: options?.email,
             language: options?.language,
         },
         transfer_identity: options?.transferIdentity,
@@ -62,7 +64,7 @@ export const sendEmail = async (
     };
 
     try {
-        const response = await axios.post(`https://bloomreach-api.haven.com/email/v2/projects/${auth.projectToken}/sync`, body, {
+        const response = await axios.post(`${auth.baseUrl}/email/v2/projects/${auth.projectToken}/sync`, body, {
             auth: {
                 username: auth.username,
                 password: auth.password,

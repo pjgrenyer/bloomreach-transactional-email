@@ -2,12 +2,13 @@ import { sendEmail } from '../src/send-email';
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '.test.env' });
 
-const { BLOOMREACH_PROJECT_TOKEN, BLOOMREACH_USERNAME, BLOOMREACH_PASSWORD, INTERGRATION_ID, EMAIL, SENDER_EMAIL, SENDER_NAME } = process.env;
+const { BLOOMREACH_PROJECT_TOKEN, BLOOMREACH_USERNAME, BLOOMREACH_PASSWORD, BLOOMREACH_BASEURL, INTERGRATION_ID, EMAIL, SENDER_EMAIL, SENDER_NAME } = process.env;
 
 describe('send email', () => {
     const auth = {
         username: BLOOMREACH_USERNAME as string,
         password: BLOOMREACH_PASSWORD as string,
+        baseUrl: BLOOMREACH_BASEURL as string,
         projectToken: BLOOMREACH_PROJECT_TOKEN as string,
     };
 
@@ -15,19 +16,19 @@ describe('send email', () => {
         const response = await sendEmail(
             auth,
             'MyCampaign',
-            EMAIL as string,
             {
                 HavenID: '3232eroofs23fsdsd',
             },
-            SENDER_EMAIL as string,
-            SENDER_NAME as string,
             {
                 html: '<!DOCTYPEhtml><body>Hello world</body></html>',
                 subject: 'SubjectExample',
             },
             {
                 integrationId: INTERGRATION_ID as string,
+                email: EMAIL as string,
                 language: 'en',
+                senderAddress: SENDER_EMAIL as string,
+                senderName: SENDER_NAME as string,
                 transferIdentity: 'disabled',
             }
         );
@@ -39,12 +40,9 @@ describe('send email', () => {
         const response = await sendEmail(
             auth,
             'Order Confirmation',
-            EMAIL as string,
             {
                 HavenID: '3232eroofs23fsdsd',
             },
-            SENDER_EMAIL as string,
-            SENDER_NAME as string,
             {
                 templateId: '64653647e1a2f69f105fbd54',
                 params: {
@@ -79,7 +77,8 @@ describe('send email', () => {
                 },
             },
             {
-                integrationId: INTERGRATION_ID as string,
+                integrations: [{ id: INTERGRATION_ID as string, senderAddress: SENDER_EMAIL as string }],
+                email: EMAIL as string,
             }
         );
 
