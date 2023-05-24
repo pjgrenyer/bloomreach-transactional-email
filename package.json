@@ -2,7 +2,6 @@
     "name": "bloomreach-transactional-email",
     "version": "0.0.2",
     "description": "A nonofficial client library for sending transactional emails via Bloomreach",
-    "main": "index.js",
     "scripts": {
         "prepare": "husky install",
         "build": "rimraf dist && tsc",
@@ -49,5 +48,7 @@
         "nock": "^13.3.1",
         "prettier": "^2.8.8",
         "supertest": "^6.3.3"
-    }
+    },
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts"
 }
