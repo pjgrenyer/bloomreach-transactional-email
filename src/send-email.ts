@@ -30,6 +30,8 @@ export interface Options {
     senderAddress?: string;
     senderName?: string;
     transferIdentity?: 'enabled' | 'disabled' | 'first_click';
+    // TODO: Settings
+    // TODO: Attachments
 }
 
 export const sendEmail = async (auth: Auth, campaignName: string, customerIds: any, emailContent: HtmlContent | TemplateContent, options?: Options) => {
