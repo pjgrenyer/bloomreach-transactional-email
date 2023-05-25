@@ -4,13 +4,13 @@ A nonofficial client library for sending transactional emails via Bloomreach.
 ## Install
 
 ```
-npm i -save pjgrenyer/bloomreach-transactional-email
+npm i -save bloomreach-transactional-email
 ```
 
 ## Basic Example
 
 ```
-import { sendEmail } from 'pjgrenyer/bloomreach-transactional-email';
+import { sendEmail } from 'bloomreach-transactional-email';
 
 const auth = {
     username: '...',    // APIKeyID
