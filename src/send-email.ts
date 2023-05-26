@@ -35,6 +35,8 @@ export interface Options {
 }
 
 export const sendEmail = async (auth: Auth, campaignName: string, customerIds: any, emailContent: HtmlContent | TemplateContent, options?: Options) => {
+    checkConfig(auth);
+
     const body = {
         integration_id: options?.integrationId,
         integrations: options?.integrations?.map((integration) => ({ id: integration.id, sender_address: integration.senderAddress })),
@@ -75,6 +77,24 @@ export const sendEmail = async (auth: Auth, campaignName: string, customerIds: a
 
         return response.data;
     } catch (error: any) {
-        throw new Error(JSON.stringify(error?.response.data, null, 2));
+        throw new Error(JSON.stringify(error, null, 2));
+    }
+};
+
+const checkConfig = (auth: Auth) => {
+    if (!auth.username) {
+        throw new Error('Username not set!');
+    }
+
+    if (!auth.password) {
+        throw new Error('Password not set!');
+    }
+
+    if (!auth.baseUrl) {
+        throw new Error('Base url not set!');
+    }
+
+    if (!auth.projectToken) {
+        throw new Error('Project token not set!');
     }
 };
