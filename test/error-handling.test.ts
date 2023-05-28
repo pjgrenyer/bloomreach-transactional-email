@@ -82,7 +82,7 @@ describe('error handling', () => {
             try {
                 await sendEmail(auth, campaignName, customerId, emailContent);
             } catch (error: any) {
-                expect(error.message).toEqual(expect.stringContaining('Request failed with status code 500'));
+                expect(error.message).toEqual('"error!"');
             }
         });
     });

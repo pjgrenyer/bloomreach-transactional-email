@@ -77,7 +77,7 @@ export const sendEmail = async (auth: Auth, campaignName: string, customerIds: a
 
         return response.data;
     } catch (error: any) {
-        throw new Error(JSON.stringify(error, null, 2));
+        throw new Error(JSON.stringify(error.response?.data ?? error.message, null, 2));
     }
 };
 
