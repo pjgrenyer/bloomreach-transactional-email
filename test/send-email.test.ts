@@ -291,4 +291,78 @@ describe('send email', () => {
             ]);
         });
     });
+
+    describe('settings', () => {
+        it('should send transfer user identity', async () => {
+            nock(baseUrl)
+                .matchHeader('authorization', authorization)
+                .matchHeader('content-type', 'application/json')
+                .post(`/email/v2/projects/${projectToken}/sync`, {
+                    email_content: {
+                        html: htmlContent.html,
+                        subject: htmlContent.subject,
+                    },
+                    campaign_name: campaignName,
+                    recipient: {
+                        customer_ids: customerIds,
+                    },
+                    settings: {
+                        transfer_user_identity: 'disabled',
+                    },
+                })
+                .reply(200, successResponse);
+
+            await sendEmail(auth, campaignName, customerIds, htmlContent, {}, undefined, {
+                transferUserIdentity: 'disabled',
+            });
+        });
+
+        it('should send consent category', async () => {
+            nock(baseUrl)
+                .matchHeader('authorization', authorization)
+                .matchHeader('content-type', 'application/json')
+                .post(`/email/v2/projects/${projectToken}/sync`, {
+                    email_content: {
+                        html: htmlContent.html,
+                        subject: htmlContent.subject,
+                    },
+                    campaign_name: campaignName,
+                    recipient: {
+                        customer_ids: customerIds,
+                    },
+                    settings: {
+                        consent_category: 'sms',
+                    },
+                })
+                .reply(200, successResponse);
+
+            await sendEmail(auth, campaignName, customerIds, htmlContent, {}, undefined, {
+                consentCategory: 'sms',
+            });
+        });
+
+        it('should send consent category tracking', async () => {
+            nock(baseUrl)
+                .matchHeader('authorization', authorization)
+                .matchHeader('content-type', 'application/json')
+                .post(`/email/v2/projects/${projectToken}/sync`, {
+                    email_content: {
+                        html: htmlContent.html,
+                        subject: htmlContent.subject,
+                    },
+                    campaign_name: campaignName,
+                    recipient: {
+                        customer_ids: customerIds,
+                    },
+                    settings: {
+                        consent_category_tracking: 'sms',
+                    },
+                })
+                .reply(200, successResponse);
+
+            await sendEmail(auth, campaignName, customerIds, htmlContent, {}, undefined, {
+                consentCategoryTracking: 'sms',
+            });
+        });
+    });
 });

@@ -100,7 +100,7 @@ export const sendEmail = async (
                   custom_event_properties: settings?.customEventProperties,
                   custom_headers: settings?.customHeaders,
                   url_arams: settings?.urlParams,
-                  transfer_user_dentity: settings?.transferUserIdentity,
+                  transfer_user_identity: settings?.transferUserIdentity,
                   consent_category: settings?.consentCategory,
                   consent_category_tracking: settings?.consentCategoryTracking,
               }
