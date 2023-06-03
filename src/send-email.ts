@@ -69,6 +69,9 @@ export const sendEmail = async (auth: Auth, campaignName: string, customerIds: a
 
     try {
         const response = await axios.post(`${auth.baseUrl}/email/v2/projects/${auth.projectToken}/sync`, body, {
+            headers: {
+                'content-type': 'application/json',
+            },
             auth: {
                 username: auth.username,
                 password: auth.password,
