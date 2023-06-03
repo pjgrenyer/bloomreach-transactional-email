@@ -1,16 +1,19 @@
 import { Auth, sendEmail } from '../src/send-email';
 import nock from 'nock';
 
-const { BLOOMREACH_PROJECT_TOKEN, BLOOMREACH_USERNAME, BLOOMREACH_PASSWORD, BLOOMREACH_BASEURL } = process.env;
-
-const campaignName = 'campaign';
-const customerId = { key: 'value' };
-const emailContent = {
-    html: '<!DOCTYPEhtml><body>Hello world</body></html>',
-    subject: 'SubjectExample',
-};
-
 describe('error handling', () => {
+    const username = 'username';
+    const password = 'password';
+    const baseUrl = 'https://api.exponea.com';
+    const projectToken = 'project-token';
+
+    const campaignName = 'campaign';
+    const customerId = { key: 'value' };
+    const emailContent = {
+        html: '<!DOCTYPEhtml><body>Hello world</body></html>',
+        subject: 'SubjectExample',
+    };
+
     describe('config', () => {
         it('should thow if username missing', async () => {
             expect.assertions(1);
@@ -26,7 +29,7 @@ describe('error handling', () => {
         it('should thow if password missing', async () => {
             expect.assertions(1);
             const auth = {
-                username: BLOOMREACH_USERNAME as string,
+                username,
             } as Auth;
 
             try {
@@ -39,8 +42,8 @@ describe('error handling', () => {
         it('should thow if baseurl missing', async () => {
             expect.assertions(1);
             const auth = {
-                username: BLOOMREACH_USERNAME as string,
-                password: BLOOMREACH_PASSWORD as string,
+                username,
+                password,
             } as Auth;
 
             try {
@@ -53,9 +56,9 @@ describe('error handling', () => {
         it('should thow if project token missing', async () => {
             expect.assertions(1);
             const auth = {
-                username: BLOOMREACH_USERNAME as string,
-                password: BLOOMREACH_PASSWORD as string,
-                baseUrl: BLOOMREACH_BASEURL as string,
+                username,
+                password,
+                baseUrl,
             } as Auth;
 
             try {
@@ -71,13 +74,13 @@ describe('error handling', () => {
             expect.assertions(1);
 
             const auth = {
-                username: BLOOMREACH_USERNAME as string,
-                password: BLOOMREACH_PASSWORD as string,
-                baseUrl: BLOOMREACH_BASEURL as string,
-                projectToken: BLOOMREACH_PROJECT_TOKEN as string,
+                username,
+                password,
+                baseUrl,
+                projectToken,
             };
 
-            nock('http://baseurl').post('/email/v2/projects/project-token/sync').reply(500, 'error!');
+            nock(baseUrl).post(`/email/v2/projects/${projectToken}/sync`).reply(500, 'error!');
 
             try {
                 await sendEmail(auth, campaignName, customerId, emailContent);
