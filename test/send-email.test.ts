@@ -27,6 +27,7 @@ describe('send email', () => {
     };
 
     const authorization = 'Basic dXNlcm5hbWU6cGFzc3dvcmQ=';
+    const successResponse = { message: 'Email was sent successfully.', success: true };
 
     describe('basic', () => {
         const templateContent = {
@@ -47,7 +48,7 @@ describe('send email', () => {
                         customer_ids: customerIds,
                     },
                 })
-                .reply(200, { message: 'Email was sent successfully.', success: true });
+                .reply(200, successResponse);
 
             await sendEmail(auth, campaignName, customerIds, htmlContent);
         });
@@ -65,7 +66,7 @@ describe('send email', () => {
                         customer_ids: customerIds,
                     },
                 })
-                .reply(200, { message: 'Email was sent successfully.', success: true });
+                .reply(200, successResponse);
 
             await sendEmail(auth, campaignName, customerIds, templateContent);
         });
@@ -98,7 +99,7 @@ describe('send email', () => {
                         customer_ids: customerIds,
                     },
                 })
-                .reply(200, { message: 'Email was sent successfully.', success: true });
+                .reply(200, successResponse);
 
             await sendEmail(auth, campaignName, customerIds, htmlContent, { integrationId });
         });
@@ -126,7 +127,7 @@ describe('send email', () => {
                         customer_ids: customerIds,
                     },
                 })
-                .reply(200, { message: 'Email was sent successfully.', success: true });
+                .reply(200, successResponse);
 
             await sendEmail(auth, campaignName, customerIds, htmlContent, { integrations });
         });
@@ -151,7 +152,7 @@ describe('send email', () => {
                         customer_ids: customerIds,
                     },
                 })
-                .reply(200, { message: 'Email was sent successfully.', success: true });
+                .reply(200, successResponse);
 
             await sendEmail(auth, campaignName, customerIds, htmlContent, { senderAddress, senderName });
         });
@@ -173,7 +174,7 @@ describe('send email', () => {
                         language,
                     },
                 })
-                .reply(200, { message: 'Email was sent successfully.', success: true });
+                .reply(200, successResponse);
 
             await sendEmail(auth, campaignName, customerIds, htmlContent, { email, language });
         });
@@ -194,7 +195,7 @@ describe('send email', () => {
                     },
                     transfer_identity: 'enabled',
                 })
-                .reply(200, { message: 'Email was sent successfully.', success: true });
+                .reply(200, successResponse);
 
             await sendEmail(auth, campaignName, customerIds, htmlContent, { transferIdentity: 'enabled' });
         });
@@ -213,7 +214,7 @@ describe('send email', () => {
                     },
                     transfer_identity: 'disabled',
                 })
-                .reply(200, { message: 'Email was sent successfully.', success: true });
+                .reply(200, successResponse);
 
             await sendEmail(auth, campaignName, customerIds, htmlContent, { transferIdentity: 'disabled' });
         });
@@ -232,7 +233,7 @@ describe('send email', () => {
                     },
                     transfer_identity: 'first_click',
                 })
-                .reply(200, { message: 'Email was sent successfully.', success: true });
+                .reply(200, successResponse);
 
             await sendEmail(auth, campaignName, customerIds, htmlContent, { transferIdentity: 'first_click' });
         });
