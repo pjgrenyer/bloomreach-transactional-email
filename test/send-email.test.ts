@@ -247,4 +247,48 @@ describe('send email', () => {
             await sendEmail(auth, campaignName, customerIds, htmlContent, { transferIdentity: 'first_click' });
         });
     });
+
+    describe('attachments', () => {
+        it('2 attachments', async () => {
+            nock(baseUrl)
+                .matchHeader('authorization', authorization)
+                .matchHeader('content-type', 'application/json')
+                .post(`/email/v2/projects/${projectToken}/sync`, {
+                    email_content: {
+                        html: htmlContent.html,
+                        subject: htmlContent.subject,
+                        attachments: [
+                            {
+                                filename: 'example1.txt',
+                                content: 'RXhhbXBsZSBhdHRhY2htZW50',
+                                content_type: 'text/plain',
+                            },
+                            {
+                                filename: 'example2.txt',
+                                content: 'RXhhbXBsZSBhdHRhY2htZW50',
+                                content_type: 'text/plain',
+                            },
+                        ],
+                    },
+                    campaign_name: campaignName,
+                    recipient: {
+                        customer_ids: customerIds,
+                    },
+                })
+                .reply(200, successResponse);
+
+            await sendEmail(auth, campaignName, customerIds, htmlContent, {}, [
+                {
+                    filename: 'example1.txt',
+                    content: 'RXhhbXBsZSBhdHRhY2htZW50',
+                    contentType: 'text/plain',
+                },
+                {
+                    filename: 'example2.txt',
+                    content: 'RXhhbXBsZSBhdHRhY2htZW50',
+                    contentType: 'text/plain',
+                },
+            ]);
+        });
+    });
 });

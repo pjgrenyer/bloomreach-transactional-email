@@ -31,7 +31,6 @@ export interface Options {
     senderName?: string;
     transferIdentity?: 'enabled' | 'disabled' | 'first_click';
     // TODO: Settings
-    // TODO: Attachments
 }
 
 export interface Attachment {
