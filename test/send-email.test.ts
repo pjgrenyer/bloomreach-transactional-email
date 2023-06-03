@@ -291,4 +291,168 @@ describe('send email', () => {
             ]);
         });
     });
+
+    describe('settings', () => {
+        it('should send custom event properties', async () => {
+            nock(baseUrl)
+                .matchHeader('authorization', authorization)
+                .matchHeader('content-type', 'application/json')
+                .post(`/email/v2/projects/${projectToken}/sync`, {
+                    email_content: {
+                        html: htmlContent.html,
+                        subject: htmlContent.subject,
+                    },
+                    campaign_name: campaignName,
+                    recipient: {
+                        customer_ids: customerIds,
+                    },
+                    settings: {
+                        custom_event_properties: {
+                            key: 'value',
+                            1: 2,
+                        },
+                    },
+                })
+                .reply(200, successResponse);
+
+            await sendEmail(auth, campaignName, customerIds, htmlContent, {}, undefined, {
+                customEventProperties: {
+                    key: 'value',
+                    1: 2,
+                },
+            });
+        });
+
+        it('should send url params', async () => {
+            nock(baseUrl)
+                .matchHeader('authorization', authorization)
+                .matchHeader('content-type', 'application/json')
+                .post(`/email/v2/projects/${projectToken}/sync`, {
+                    email_content: {
+                        html: htmlContent.html,
+                        subject: htmlContent.subject,
+                    },
+                    campaign_name: campaignName,
+                    recipient: {
+                        customer_ids: customerIds,
+                    },
+                    settings: {
+                        url_params: {
+                            key: 'value',
+                            1: 2,
+                        },
+                    },
+                })
+                .reply(200, successResponse);
+
+            await sendEmail(auth, campaignName, customerIds, htmlContent, {}, undefined, {
+                urlParams: {
+                    key: 'value',
+                    1: 2,
+                },
+            });
+        });
+
+        it('should send custom custom headers', async () => {
+            nock(baseUrl)
+                .matchHeader('authorization', authorization)
+                .matchHeader('content-type', 'application/json')
+                .post(`/email/v2/projects/${projectToken}/sync`, {
+                    email_content: {
+                        html: htmlContent.html,
+                        subject: htmlContent.subject,
+                    },
+                    campaign_name: campaignName,
+                    recipient: {
+                        customer_ids: customerIds,
+                    },
+                    settings: {
+                        custom_headers: {
+                            key: 'value',
+                            1: 2,
+                        },
+                    },
+                })
+                .reply(200, successResponse);
+
+            await sendEmail(auth, campaignName, customerIds, htmlContent, {}, undefined, {
+                customHeaders: {
+                    key: 'value',
+                    1: 2,
+                },
+            });
+        });
+
+        it('should send transfer user identity', async () => {
+            nock(baseUrl)
+                .matchHeader('authorization', authorization)
+                .matchHeader('content-type', 'application/json')
+                .post(`/email/v2/projects/${projectToken}/sync`, {
+                    email_content: {
+                        html: htmlContent.html,
+                        subject: htmlContent.subject,
+                    },
+                    campaign_name: campaignName,
+                    recipient: {
+                        customer_ids: customerIds,
+                    },
+                    settings: {
+                        transfer_user_identity: 'disabled',
+                    },
+                })
+                .reply(200, successResponse);
+
+            await sendEmail(auth, campaignName, customerIds, htmlContent, {}, undefined, {
+                transferUserIdentity: 'disabled',
+            });
+        });
+
+        it('should send consent category', async () => {
+            nock(baseUrl)
+                .matchHeader('authorization', authorization)
+                .matchHeader('content-type', 'application/json')
+                .post(`/email/v2/projects/${projectToken}/sync`, {
+                    email_content: {
+                        html: htmlContent.html,
+                        subject: htmlContent.subject,
+                    },
+                    campaign_name: campaignName,
+                    recipient: {
+                        customer_ids: customerIds,
+                    },
+                    settings: {
+                        consent_category: 'sms',
+                    },
+                })
+                .reply(200, successResponse);
+
+            await sendEmail(auth, campaignName, customerIds, htmlContent, {}, undefined, {
+                consentCategory: 'sms',
+            });
+        });
+
+        it('should send consent category tracking', async () => {
+            nock(baseUrl)
+                .matchHeader('authorization', authorization)
+                .matchHeader('content-type', 'application/json')
+                .post(`/email/v2/projects/${projectToken}/sync`, {
+                    email_content: {
+                        html: htmlContent.html,
+                        subject: htmlContent.subject,
+                    },
+                    campaign_name: campaignName,
+                    recipient: {
+                        customer_ids: customerIds,
+                    },
+                    settings: {
+                        consent_category_tracking: 'sms',
+                    },
+                })
+                .reply(200, successResponse);
+
+            await sendEmail(auth, campaignName, customerIds, htmlContent, {}, undefined, {
+                consentCategoryTracking: 'sms',
+            });
+        });
+    });
 });
