@@ -84,4 +84,40 @@ describe('send email', () => {
 
         expect(response).toEqual({ message: 'Email was sent successfully.', success: true });
     });
+
+    it('should send html email with attachment', async () => {
+        const response = await sendEmail(
+            auth,
+            'MyCampaign',
+            {
+                HavenID: '3232eroofs23fsdsd',
+            },
+            {
+                html: '<!DOCTYPEhtml><body>Hello world</body></html>',
+                subject: 'SubjectExample',
+            },
+            {
+                integrationId: INTERGRATION_ID as string,
+                email: EMAIL as string,
+                language: 'en',
+                senderAddress: SENDER_EMAIL as string,
+                senderName: SENDER_NAME as string,
+                transferIdentity: 'disabled',
+            },
+            [
+                {
+                    filename: 'example1.txt',
+                    content: 'RXhhbXBsZSBhdHRhY2htZW50',
+                    contentType: 'text/plain',
+                },
+                {
+                    filename: 'example2.txt',
+                    content: 'RXhhbXBsZSBhdHRhY2htZW50',
+                    contentType: 'text/plain',
+                },
+            ]
+        );
+
+        expect(response).toEqual({ message: 'Email was sent successfully.', success: true });
+    });
 });
