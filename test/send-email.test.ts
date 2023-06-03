@@ -156,13 +156,13 @@ describe('send email', () => {
                 .post(`/email/v2/projects/${projectToken}/sync`, {
                     email_content: {
                         html: htmlContent.html,
-                        subject: htmlContent.subject
+                        subject: htmlContent.subject,
                     },
                     campaign_name: campaignName,
                     recipient: {
                         customer_ids: customerIds,
                         email,
-                        language
+                        language,
                     },
                 })
                 .reply(200, { message: 'Email was sent successfully.', success: true });
@@ -177,13 +177,13 @@ describe('send email', () => {
                 .post(`/email/v2/projects/${projectToken}/sync`, {
                     email_content: {
                         html: htmlContent.html,
-                        subject: htmlContent.subject
+                        subject: htmlContent.subject,
                     },
                     campaign_name: campaignName,
                     recipient: {
                         customer_ids: customerIds,
                     },
-                    transfer_identity: 'enabled'
+                    transfer_identity: 'enabled',
                 })
                 .reply(200, { message: 'Email was sent successfully.', success: true });
 
@@ -195,13 +195,13 @@ describe('send email', () => {
                 .post(`/email/v2/projects/${projectToken}/sync`, {
                     email_content: {
                         html: htmlContent.html,
-                        subject: htmlContent.subject
+                        subject: htmlContent.subject,
                     },
                     campaign_name: campaignName,
                     recipient: {
                         customer_ids: customerIds,
                     },
-                    transfer_identity: 'disabled'
+                    transfer_identity: 'disabled',
                 })
                 .reply(200, { message: 'Email was sent successfully.', success: true });
 
@@ -213,13 +213,13 @@ describe('send email', () => {
                 .post(`/email/v2/projects/${projectToken}/sync`, {
                     email_content: {
                         html: htmlContent.html,
-                        subject: htmlContent.subject
+                        subject: htmlContent.subject,
                     },
                     campaign_name: campaignName,
                     recipient: {
                         customer_ids: customerIds,
                     },
-                    transfer_identity: 'first_click'
+                    transfer_identity: 'first_click',
                 })
                 .reply(200, { message: 'Email was sent successfully.', success: true });
 
