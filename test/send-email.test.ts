@@ -26,6 +26,8 @@ describe('send email', () => {
         subject: 'test subject',
     };
 
+    const authorization = 'Basic dXNlcm5hbWU6cGFzc3dvcmQ=';
+
     describe('basic', () => {
         const templateContent = {
             templateId: 'template-id',
@@ -34,6 +36,7 @@ describe('send email', () => {
 
         it('minimal html send', async () => {
             nock(baseUrl)
+                .matchHeader('authorization', authorization)
                 .post(`/email/v2/projects/${projectToken}/sync`, {
                     email_content: {
                         html: htmlContent.html,
@@ -51,6 +54,7 @@ describe('send email', () => {
 
         it('minimal template send', async () => {
             nock(baseUrl)
+                .matchHeader('authorization', authorization)
                 .post(`/email/v2/projects/${projectToken}/sync`, {
                     email_content: {
                         template_id: templateContent.templateId,
@@ -82,6 +86,7 @@ describe('send email', () => {
 
         it('single integration', async () => {
             nock(baseUrl)
+                .matchHeader('authorization', authorization)
                 .post(`/email/v2/projects/${projectToken}/sync`, {
                     integration_id: integrationId,
                     email_content: {
@@ -100,6 +105,7 @@ describe('send email', () => {
 
         it('double integration', async () => {
             nock(baseUrl)
+                .matchHeader('authorization', authorization)
                 .post(`/email/v2/projects/${projectToken}/sync`, {
                     integrations: [
                         {
@@ -132,6 +138,7 @@ describe('send email', () => {
 
         it('sender', async () => {
             nock(baseUrl)
+                .matchHeader('authorization', authorization)
                 .post(`/email/v2/projects/${projectToken}/sync`, {
                     email_content: {
                         html: htmlContent.html,
@@ -153,6 +160,7 @@ describe('send email', () => {
             const language = 'en';
 
             nock(baseUrl)
+                .matchHeader('authorization', authorization)
                 .post(`/email/v2/projects/${projectToken}/sync`, {
                     email_content: {
                         html: htmlContent.html,
@@ -174,6 +182,7 @@ describe('send email', () => {
     describe('transfer identity', () => {
         it('enabled', async () => {
             nock(baseUrl)
+                .matchHeader('authorization', authorization)
                 .post(`/email/v2/projects/${projectToken}/sync`, {
                     email_content: {
                         html: htmlContent.html,
@@ -192,6 +201,7 @@ describe('send email', () => {
 
         it('disabled', async () => {
             nock(baseUrl)
+                .matchHeader('authorization', authorization)
                 .post(`/email/v2/projects/${projectToken}/sync`, {
                     email_content: {
                         html: htmlContent.html,
@@ -210,6 +220,7 @@ describe('send email', () => {
 
         it('first click', async () => {
             nock(baseUrl)
+                .matchHeader('authorization', authorization)
                 .post(`/email/v2/projects/${projectToken}/sync`, {
                     email_content: {
                         html: htmlContent.html,
