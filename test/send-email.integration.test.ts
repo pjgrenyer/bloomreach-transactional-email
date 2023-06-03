@@ -2,7 +2,7 @@ import { sendEmail } from '../src/send-email';
 import * as dotenv from 'dotenv';
 dotenv.config({ path: '.test.env' });
 
-const { BLOOMREACH_PROJECT_TOKEN, BLOOMREACH_USERNAME, BLOOMREACH_PASSWORD, BLOOMREACH_BASEURL, INTERGRATION_ID, EMAIL, SENDER_EMAIL, SENDER_NAME } = process.env;
+const { BLOOMREACH_PROJECT_TOKEN, BLOOMREACH_USERNAME, BLOOMREACH_PASSWORD, BLOOMREACH_BASEURL, INTERGRATION_ID, EMAIL, SENDER_EMAIL, SENDER_NAME, CUSTOMER_IDS } = process.env;
 
 describe('send email', () => {
     const auth = {
@@ -16,9 +16,7 @@ describe('send email', () => {
         const response = await sendEmail(
             auth,
             'MyCampaign',
-            {
-                HavenID: '3232eroofs23fsdsd',
-            },
+            JSON.parse(CUSTOMER_IDS as string),
             {
                 html: '<!DOCTYPEhtml><body>Hello world</body></html>',
                 subject: 'SubjectExample',
@@ -40,9 +38,7 @@ describe('send email', () => {
         const response = await sendEmail(
             auth,
             'Order Confirmation',
-            {
-                HavenID: '3232eroofs23fsdsd',
-            },
+            JSON.parse(CUSTOMER_IDS as string),
             {
                 templateId: '64653647e1a2f69f105fbd54',
                 params: {
@@ -89,9 +85,7 @@ describe('send email', () => {
         const response = await sendEmail(
             auth,
             'MyCampaign',
-            {
-                HavenID: '3232eroofs23fsdsd',
-            },
+            JSON.parse(CUSTOMER_IDS as string),
             {
                 html: '<!DOCTYPEhtml><body>Hello world</body></html>',
                 subject: 'SubjectExample',
@@ -125,9 +119,7 @@ describe('send email', () => {
         const response = await sendEmail(
             auth,
             'MyCampaign',
-            {
-                HavenID: '3232eroofs23fsdsd',
-            },
+            JSON.parse(CUSTOMER_IDS as string),
             {
                 templateId: '64653647e1a2f69f105fbd54',
                 params: {
@@ -167,7 +159,6 @@ describe('send email', () => {
                 language: 'en',
                 senderAddress: SENDER_EMAIL as string,
                 senderName: SENDER_NAME as string,
-                transferIdentity: 'disabled',
             },
             [],
             {
@@ -184,8 +175,8 @@ describe('send email', () => {
                     1: 2,
                 },
                 transferUserIdentity: 'first_click',
-                consentCategory: 'sms',
-                consentCategoryTracking: 'sms',
+                // consentCategory: 'sms',
+                // consentCategoryTracking: 'sms',
             }
         );
 
