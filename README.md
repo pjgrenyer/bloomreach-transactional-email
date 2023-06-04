@@ -4,7 +4,7 @@
 [![NPM downloads](https://img.shields.io/npm/dm/bloomreach-transactional-email.svg?style=flat-square)](https://www.npmjs.com/package/bloomreach-transactional-email)
 [![Code Style](https://img.shields.io/badge/code%20style-prettier-brightgreen.svg)](https://github.com/prettier/prettier)
 
-A nonofficial, feature complete, client library for sending transactional emails via Bloomreach.
+A nonofficial, feature complete, client library for sending transactional emails via [Bloomreach](https://www.bloomreach.com).
 
 The aim of the `bloomreach-transactional-email` package is to get you going with the Bloomreach Transactional Email API as quickly as possible. The sendEmail function takes the minimum number of required parameters to send an email. Other parameters are optional. Full details of all the options can be found in the [Blooreach Transactional Email API documentation](https://documentation.bloomreach.com/engagement/reference/transactional-email-2).
 
