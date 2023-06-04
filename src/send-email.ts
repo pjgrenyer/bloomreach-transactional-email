@@ -30,11 +30,45 @@ export interface Options {
     senderAddress?: string;
     senderName?: string;
     transferIdentity?: 'enabled' | 'disabled' | 'first_click';
-    // TODO: Settings
-    // TODO: Attachments
 }
 
-export const sendEmail = async (auth: Auth, campaignName: string, customerIds: any, emailContent: HtmlContent | TemplateContent, options?: Options) => {
+export interface Attachment {
+    filename: string;
+    content: string;
+    contentType: string;
+}
+
+export interface AlphaNumericDictionary {
+    [name: string | number]: string | number;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface CustomEventProperties extends AlphaNumericDictionary {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface CustomHeaders extends AlphaNumericDictionary {}
+
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
+export interface UrlParams extends AlphaNumericDictionary {}
+
+export interface Settings {
+    customEventProperties?: CustomEventProperties;
+    customHeaders?: CustomHeaders;
+    urlParams?: UrlParams;
+    transferUserIdentity?: 'enabled' | 'disabled' | 'first_click';
+    consentCategory?: string;
+    consentCategoryTracking?: string;
+}
+
+export const sendEmail = async (
+    auth: Auth,
+    campaignName: string,
+    customerIds: any,
+    emailContent: HtmlContent | TemplateContent,
+    options?: Options,
+    attachments?: Attachment[],
+    settings?: Settings
+) => {
     checkConfig(auth);
 
     const body = {
@@ -52,6 +86,7 @@ export const sendEmail = async (auth: Auth, campaignName: string, customerIds: a
                   }),
             sender_address: options?.senderAddress,
             sender_name: options?.senderName,
+            attachments: attachments?.map((attachment) => ({ filename: attachment.filename, content: attachment.content, content_type: attachment.contentType })),
         },
         campaign_name: campaignName,
         recipient: {
@@ -60,15 +95,23 @@ export const sendEmail = async (auth: Auth, campaignName: string, customerIds: a
             language: options?.language,
         },
         transfer_identity: options?.transferIdentity,
-        // settings: {
-        //     custom_event_properties: {
-        //         banana: 'yellow',
-        //     },
-        // },
+        settings: settings
+            ? {
+                  custom_event_properties: settings?.customEventProperties,
+                  custom_headers: settings?.customHeaders,
+                  url_params: settings?.urlParams,
+                  transfer_user_identity: settings?.transferUserIdentity,
+                  consent_category: settings?.consentCategory,
+                  consent_category_tracking: settings?.consentCategoryTracking,
+              }
+            : undefined,
     };
 
     try {
         const response = await axios.post(`${auth.baseUrl}/email/v2/projects/${auth.projectToken}/sync`, body, {
+            headers: {
+                'content-type': 'application/json',
+            },
             auth: {
                 username: auth.username,
                 password: auth.password,
