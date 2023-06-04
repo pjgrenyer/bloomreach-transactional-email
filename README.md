@@ -74,7 +74,7 @@ await sendEmail(
 
 ## Integrations
 
-You can specify either a single intergation:
+You can specify either a single integration:
 
 ```
 await sendEmail(
