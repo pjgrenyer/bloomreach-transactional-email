@@ -6,7 +6,7 @@
 
 A nonofficial, feature complete, client library for sending transactional emails via Bloomreach.
 
-The aim of `bloomreach-transactional-email` package is to get you going with the Bloomreach Transactional Email API as quickly as possible. The sendEmail function takes the minimum number of required parameters to send an email. Other parameters are optional. Full details of all the options can be found in the [Blooreach Transactional Email API documentation](https://documentation.bloomreach.com/engagement/reference/transactional-email-2).
+The aim of the `bloomreach-transactional-email` package is to get you going with the Bloomreach Transactional Email API as quickly as possible. The sendEmail function takes the minimum number of required parameters to send an email. Other parameters are optional. Full details of all the options can be found in the [Blooreach Transactional Email API documentation](https://documentation.bloomreach.com/engagement/reference/transactional-email-2).
 
 
 
@@ -72,3 +72,64 @@ await sendEmail(
 );
 ```
 
+## Integrations
+
+You can specify either a single intergation:
+
+```
+await sendEmail(
+    auth,
+    campaignName,
+    customerIds,
+    htmlContent,
+    {        
+        integrationId: "5b337eceeb7cdb000d4e20f3"
+    } 
+);
+```
+or up to two integrations, a primary and a backup in case the primary fails, with individual sender addresses:
+```
+await sendEmail(
+    auth,
+    campaignName,
+    customerIds,
+    htmlContent,
+    {        
+        integrations: [
+            {
+                id: "5b337eceeb7cdb000d4e20f3",
+                senderAddress: "marian@exponea.com",
+            },
+            {
+                id: "3f02e4d000bdc7beece733b5",
+                senderAddress: "marian@exponea.com",
+            }
+        ]
+    } 
+);
+```
+## Attachments
+
+You can add an array of attachments with base64 encoded content:
+
+```
+await sendEmail(
+    auth,
+    campaignName,
+    customerIds,
+    htmlContent,
+    {}, // Options object can also be undefined
+    [
+        {
+            filename: 'example1.txt',
+            content: 'RXhhbXBsZSBhdHRhY2htZW50',
+            contentType: 'text/plain',
+        },
+        {
+            filename: 'example2.txt',
+            content: 'RXhhbXBsZSBhdHRhY2htZW50',
+            contentType: 'text/plain',
+        },
+    ] 
+);
+```
