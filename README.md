@@ -108,6 +108,27 @@ await sendEmail(
     } 
 );
 ```
+
+## Transfer Identity
+
+You can specify a transfer identity of:
+
+- enabled
+- disabled
+- first_click
+
+```
+await sendEmail(
+    auth,
+    campaignName,
+    customerIds,
+    htmlContent,
+    {        
+        transferIdentity: 'disabled'
+    } 
+);
+```
+
 ## Attachments
 
 You can add an array of attachments with base64 encoded content:
@@ -131,5 +152,46 @@ await sendEmail(
             contentType: 'text/plain',
         },
     ] 
+);
+```
+
+## Settings
+
+You can also add:
+
+- Custom Event Properties
+- Custom Headers
+- UrlParams
+- Transfer User Identity
+- Consent Category
+- Consent Category Tracking
+
+Check the  [Blooreach Transactional Email API documentation](https://documentation.bloomreach.com/engagement/reference/transactional-email-2) for details:
+
+```
+await sendEmail(
+    auth,
+    campaignName,
+    customerIds,
+    htmlContent,
+    {}, // Options object can also be undefined
+    [], // Attachments array can also be undefined
+    {
+        customEventProperties: {
+            bannana: 'yellow',
+            1: 2,
+        },
+        customHeaders: {
+            source: 'your-company',
+            1: 2,
+        },
+        urlParams: {
+            source: 'email',
+            1: 2,
+        },
+        transferUserIdentity: 'first_click',
+        consentCategory: 'sms',
+        consentCategoryTracking: 'sms',
+    } 
 );
 ```
