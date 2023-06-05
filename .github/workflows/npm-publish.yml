@@ -19,7 +19,7 @@ jobs:
             - run: npm run build
             - run: rm -fdr node_modules && npm -g i husky && npm i --omit=dev
             - run: npm publish
-            # - run: cd client-types
-            # - run: npm publish
+            - run: cd client-types
+            - run: npm publish
               env:
                   NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}
