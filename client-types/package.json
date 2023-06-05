@@ -1,0 +1,8 @@
+{
+    "name": "bloomreach-transactional-email-types",
+    "version": "0.0.1",
+    "types": "../../dist/client-types.d.ts",
+    "publishConfig": {
+        "registry": "https://npm.pkg.github.com"
+    }
+}
