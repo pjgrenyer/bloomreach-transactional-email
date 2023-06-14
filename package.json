@@ -1,6 +1,6 @@
 {
     "name": "bloomreach-transactional-email",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "description": "A nonofficial, feature complete, client library for sending transactional emails via Bloomreach.",
     "scripts": {
         "prepare": "husky install",
