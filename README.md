@@ -8,7 +8,7 @@ A nonofficial, feature complete, client library for sending transactional emails
 
 The aim of the `bloomreach-transactional-email` package is to get you going with the Bloomreach Transactional Email API as quickly as possible. The sendEmail function takes the minimum number of required parameters to send an email. Other parameters are optional. Full details of all the options can be found in the [Blooreach Transactional Email API documentation](https://documentation.bloomreach.com/engagement/reference/transactional-email-2).
 
-
+`bloomreach-transactional-email` uses [axios](https://www.npmjs.com/package/axios), as a peer dependency, to make HTTP calls.
 
 ## Install
 
@@ -74,7 +74,7 @@ await sendEmail(
 
 ## Integrations
 
-You can specify either a single intergation:
+You can specify either a single integration:
 
 ```
 await sendEmail(
