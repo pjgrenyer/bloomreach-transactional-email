@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { BloomreachBadRequest, BloomreachError, BloomreachTemplateNotFound } from './lib/errors';
 
 export interface Auth {
     username: string;
@@ -120,7 +121,18 @@ export const sendEmail = async (
 
         return response.data;
     } catch (error: any) {
-        throw new Error(JSON.stringify(error.response?.data ?? error.message, null, 2));
+        const statusCode = error.response?.status;
+        const statusText = error.response?.statusText;
+        const response = error.response?.data ?? error.message;
+
+        if (statusCode === 400) {
+            if (response?.errors?.email_content?.template_id?.find((mes: string) => mes.toLocaleLowerCase().includes('not found'))) {
+                throw new BloomreachTemplateNotFound(statusCode, statusText, response);
+            }
+            throw new BloomreachBadRequest(statusCode, statusText, response);
+        }
+
+        throw new BloomreachError(statusCode, statusText, response);
     }
 };
 

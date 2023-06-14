@@ -1,3 +1,4 @@
+import { BloomreachBadRequest, BloomreachError, BloomreachTemplateNotFound } from '../src/lib/errors';
 import { Auth, sendEmail } from '../src/send-email';
 import nock from 'nock';
 
@@ -70,8 +71,8 @@ describe('error handling', () => {
     });
 
     describe('http', () => {
-        it('should throw http error', async () => {
-            expect.assertions(1);
+        it('should throw 500 BloomreachError', async () => {
+            expect.assertions(2);
 
             const auth = {
                 username,
@@ -85,7 +86,66 @@ describe('error handling', () => {
             try {
                 await sendEmail(auth, campaignName, customerId, emailContent);
             } catch (error: any) {
-                expect(error.message).toEqual('"error!"');
+                expect(error).toBeInstanceOf(BloomreachError);
+                expect(error.message).toEqual('500 - null - "error!"');
+            }
+        });
+
+        it('should throw BloomreachBadRequest', async () => {
+            expect.assertions(2);
+
+            const auth = {
+                username,
+                password,
+                baseUrl,
+                projectToken,
+            };
+
+            nock(baseUrl).post(`/email/v2/projects/${projectToken}/sync`).reply(400, 'error!');
+
+            try {
+                await sendEmail(auth, campaignName, customerId, emailContent);
+            } catch (error: any) {
+                expect(error).toBeInstanceOf(BloomreachBadRequest);
+                expect(error.message).toEqual('400 - null - "error!"');
+            }
+        });
+
+        it('should throw BloomreachTemplateNotFound', async () => {
+            expect.assertions(2);
+
+            const auth = {
+                username,
+                password,
+                baseUrl,
+                projectToken,
+            };
+
+            nock(baseUrl)
+                .post(`/email/v2/projects/${projectToken}/sync`)
+                .reply(400, {
+                    errors: {
+                        email_content: { template_id: ['The template you have asked for is NOT FOUND!'] },
+                    },
+                });
+
+            try {
+                await sendEmail(auth, campaignName, customerId, emailContent);
+            } catch (error: any) {
+                expect(error).toBeInstanceOf(BloomreachTemplateNotFound);
+                expect(error.message).toEqual(
+                    `400 - null - ${JSON.stringify(
+                        {
+                            errors: {
+                                email_content: {
+                                    template_id: ['The template you have asked for is NOT FOUND!'],
+                                },
+                            },
+                        },
+                        null,
+                        2
+                    )}`
+                );
             }
         });
     });
