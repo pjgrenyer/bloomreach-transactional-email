@@ -13,9 +13,13 @@ export interface HtmlContent {
     subject: string;
 }
 
+export interface Params {
+    [key: string]: string | number | Array<Params> | Params;
+}
+
 export interface TemplateContent {
     templateId: string;
-    params?: any;
+    params?: Params;
 }
 
 export interface Integration {
