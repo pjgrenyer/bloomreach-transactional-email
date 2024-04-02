@@ -1,4 +1,4 @@
-import { BloomreachBadRequest, BloomreachError, BloomreachTemplateNotFound } from './lib/errors';
+import { BloomreachBadRequest, BloomreachError, BloomreachTemplateNotFound, BloomreachSuppressionList } from './lib/errors';
 import {
     Auth,
     HtmlContent,
@@ -14,4 +14,4 @@ import {
 } from './send-email';
 
 export { Auth, HtmlContent, TemplateContent, Integration, Options, Attachment, AlphaNumericDictionary, CustomEventProperties, CustomHeaders, UrlParams, sendEmail };
-export { BloomreachError, BloomreachBadRequest, BloomreachTemplateNotFound };
+export { BloomreachError, BloomreachBadRequest, BloomreachTemplateNotFound, BloomreachSuppressionList };
