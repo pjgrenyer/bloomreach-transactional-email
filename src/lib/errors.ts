@@ -35,3 +35,9 @@ export class BloomreachTemplateNotFound extends BloomreachBadRequest {
         super(status, statusText, response);
     }
 }
+
+export class BloomreachSuppressionList extends BloomreachBadRequest {
+    constructor(status: number, statusText: string, response: any) {
+        super(status, statusText, response);
+    }
+}

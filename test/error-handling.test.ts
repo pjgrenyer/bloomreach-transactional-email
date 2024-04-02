@@ -1,4 +1,4 @@
-import { BloomreachBadRequest, BloomreachError, BloomreachTemplateNotFound } from '../src/lib/errors';
+import { BloomreachBadRequest, BloomreachError, BloomreachSuppressionList, BloomreachTemplateNotFound } from '../src/lib/errors';
 import { Auth, sendEmail } from '../src/send-email';
 import nock from 'nock';
 
@@ -141,6 +141,38 @@ describe('error handling', () => {
                                     template_id: ['The template you have asked for is NOT FOUND!'],
                                 },
                             },
+                        },
+                        null,
+                        2
+                    )}`
+                );
+            }
+        });
+
+        it('should throw BloomreachTemplateNotFound', async () => {
+            expect.assertions(2);
+
+            const auth = {
+                username,
+                password,
+                baseUrl,
+                projectToken,
+            };
+
+            nock(baseUrl)
+                .post(`/email/v2/projects/${projectToken}/sync`)
+                .reply(400, {
+                    errors: ['Email address or domain is on the suppression list'],
+                });
+
+            try {
+                await sendEmail(auth, campaignName, customerId, emailContent);
+            } catch (error: any) {
+                expect(error).toBeInstanceOf(BloomreachSuppressionList);
+                expect(error.message).toEqual(
+                    `400 - null - ${JSON.stringify(
+                        {
+                            errors: ['Email address or domain is on the suppression list'],
                         },
                         null,
                         2
