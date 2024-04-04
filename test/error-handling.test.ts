@@ -180,5 +180,37 @@ describe('error handling', () => {
                 );
             }
         });
+
+        it('should throw BloomreachTemplateNotFound - alternitive message', async () => {
+            expect.assertions(2);
+
+            const auth = {
+                username,
+                password,
+                baseUrl,
+                projectToken,
+            };
+
+            nock(baseUrl)
+                .post(`/email/v2/projects/${projectToken}/sync`)
+                .reply(400, {
+                    errors: ['Email address or domain is in the suppression list'],
+                });
+
+            try {
+                await sendEmail(auth, campaignName, customerId, emailContent);
+            } catch (error: any) {
+                expect(error).toBeInstanceOf(BloomreachSuppressionList);
+                expect(error.message).toEqual(
+                    `400 - null - ${JSON.stringify(
+                        {
+                            errors: ['Email address or domain is in the suppression list'],
+                        },
+                        null,
+                        2
+                    )}`
+                );
+            }
+        });
     });
 });
