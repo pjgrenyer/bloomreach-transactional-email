@@ -149,7 +149,7 @@ describe('error handling', () => {
             }
         });
 
-        it('should throw BloomreachTemplateNotFound', async () => {
+        it('should throw BloomreachSuppressionList', async () => {
             expect.assertions(2);
 
             const auth = {
@@ -181,7 +181,7 @@ describe('error handling', () => {
             }
         });
 
-        it('should throw BloomreachTemplateNotFound - alternitive message', async () => {
+        it('should throw BloomreachSuppressionList - alternitive message', async () => {
             expect.assertions(2);
 
             const auth = {
@@ -205,6 +205,42 @@ describe('error handling', () => {
                     `400 - null - ${JSON.stringify(
                         {
                             errors: ['Email address or domain is in the suppression list'],
+                        },
+                        null,
+                        2
+                    )}`
+                );
+            }
+        });
+
+        it('should throw BloomreachBadRequest if errors is not an array', async () => {
+            expect.assertions(2);
+
+            const auth = {
+                username,
+                password,
+                baseUrl,
+                projectToken,
+            };
+
+            nock(baseUrl)
+                .post(`/email/v2/projects/${projectToken}/sync`)
+                .reply(400, {
+                    errors: {
+                        other_error_type: { message: 'Other ErrorType' },
+                    },
+                });
+
+            try {
+                await sendEmail(auth, campaignName, customerId, emailContent);
+            } catch (error: any) {
+                expect(error).toBeInstanceOf(BloomreachBadRequest);
+                expect(error.message).toEqual(
+                    `400 - null - ${JSON.stringify(
+                        {
+                            errors: {
+                                other_error_type: { message: 'Other ErrorType' },
+                            },
                         },
                         null,
                         2

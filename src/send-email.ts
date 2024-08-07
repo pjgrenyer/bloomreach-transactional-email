@@ -129,6 +129,7 @@ export const sendEmail = async (
             if (response?.errors?.email_content?.template_id?.find((mes: string) => mes.toLocaleLowerCase().includes('not found'))) {
                 throw new BloomreachTemplateNotFound(statusCode, statusText, response);
             } else if (
+                Array.isArray(response?.errors) &&
                 response?.errors?.find(
                     (mes: string) =>
                         mes.toLocaleLowerCase().includes('email address or domain is on the suppression list') ||
