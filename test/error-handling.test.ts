@@ -149,6 +149,44 @@ describe('error handling', () => {
             }
         });
 
+        it('should throw BloomreachTemplateNotFound - alternitive message', async () => {
+            expect.assertions(2);
+
+            const auth = {
+                username,
+                password,
+                baseUrl,
+                projectToken,
+            };
+
+            nock(baseUrl)
+                .post(`/email/v2/projects/${projectToken}/sync`)
+                .reply(400, {
+                    errors: {
+                        email_content: { template_id: ['Failed to use stored template: no such an email design'] },
+                    },
+                });
+
+            try {
+                await sendEmail(auth, campaignName, customerId, emailContent);
+            } catch (error: any) {
+                expect(error).toBeInstanceOf(BloomreachTemplateNotFound);
+                expect(error.message).toEqual(
+                    `400 - null - ${JSON.stringify(
+                        {
+                            errors: {
+                                email_content: {
+                                    template_id: ['Failed to use stored template: no such an email design'],
+                                },
+                            },
+                        },
+                        null,
+                        2
+                    )}`
+                );
+            }
+        });
+
         it('should throw BloomreachSuppressionList', async () => {
             expect.assertions(2);
 
