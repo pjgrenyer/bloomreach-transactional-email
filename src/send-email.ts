@@ -126,7 +126,11 @@ export const sendEmail = async (
         const response = error.response?.data ?? error.message;
 
         if (statusCode === 400) {
-            if (response?.errors?.email_content?.template_id?.find((mes: string) => mes.toLocaleLowerCase().includes('not found'))) {
+            if (
+                response?.errors?.email_content?.template_id?.find(
+                    (mes: string) => mes.toLocaleLowerCase().includes('not found') || mes.toLocaleLowerCase().includes('no such an email design')
+                )
+            ) {
                 throw new BloomreachTemplateNotFound(statusCode, statusText, response);
             } else if (
                 Array.isArray(response?.errors) &&
