@@ -1,14 +1,14 @@
 import { AxiosError, RawAxiosResponseHeaders, AxiosHeaders } from 'axios';
 
 export class BloomreachError extends AxiosError {
-    private readonly _message: string
+    private readonly _message: string;
 
     constructor(error: AxiosError) {
         super(error.message, error.code, error.config, error.request, error.response);
         const statusCode = error.response?.status;
         const statusText = error.response?.statusText;
         const response = error.response?.data ?? error.message;
-        this._message = `${statusCode} - ${statusText} - ${JSON.stringify(response, null, 2)}`
+        this._message = `${statusCode} - ${statusText} - ${JSON.stringify(response, null, 2)}`;
     }
 
     getStatus() {
@@ -27,9 +27,9 @@ export class BloomreachError extends AxiosError {
         return this.response?.headers;
     }
 
-    // Expose the old message that was build for these errors.
+    // Expose the old message that was built for these errors.
     getCombinedMessage() {
-        return this._message
+        return this._message;
     }
 }
 

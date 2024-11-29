@@ -1,5 +1,5 @@
 import { BloomreachError } from '../../src';
-import { AxiosError, AxiosResponse } from "axios";
+import { AxiosError, AxiosResponse } from 'axios';
 
 describe('bloomreach error', () => {
     const response: AxiosResponse = {
@@ -10,10 +10,10 @@ describe('bloomreach error', () => {
             'content-type': 'text/html',
             'x-random-header': 'set',
         },
-        config: undefined
-    }
+        config: undefined,
+    };
 
-    const axiosError = new AxiosError('axiosError', undefined, undefined, undefined, response)
+    const axiosError = new AxiosError('axiosError', undefined, undefined, undefined, response);
 
     it('should get status code', () => {
         const error = new BloomreachError(axiosError);

@@ -151,13 +151,11 @@ export const sendEmail = async (
 
         // Bloomreach can wrap downstream errors. We identify underlying 429
         // errors to help with retry logic.
-        if ((statusCode === StatusCodes.BAD_GATEWAY) && (
-          Array.isArray(response?.errors) &&
-          response?.errors?.find(
-            (mes: string) =>
-              mes.toLocaleLowerCase().includes('429 Too Many Requests')
-          )
-        )) {
+        if (
+            statusCode === StatusCodes.BAD_GATEWAY &&
+            Array.isArray(response?.errors) &&
+            response?.errors?.find((mes: string) => mes.toLocaleLowerCase().includes('429 Too Many Requests'))
+        ) {
             throw new BloomReachRateLimited(error);
         }
 
