@@ -124,6 +124,7 @@ export const sendEmail = async (
         const statusCode = error.response?.status;
         const statusText = error.response?.statusText;
         const response = error.response?.data ?? error.message;
+        const headers = error.response?.headers;
 
         if (statusCode === 400) {
             if (
@@ -145,7 +146,7 @@ export const sendEmail = async (
             throw new BloomreachBadRequest(statusCode, statusText, response);
         }
 
-        throw new BloomreachError(statusCode, statusText, response);
+        throw new BloomreachError(statusCode, statusText, response, headers);
     }
 };
 
