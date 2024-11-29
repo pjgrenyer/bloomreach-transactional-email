@@ -50,7 +50,7 @@ export class BloomreachSuppressionList extends BloomreachBadRequest {
     }
 }
 
-export class BloomReachRateLimited extends  BloomreachError {
+export class BloomReachRateLimited extends BloomreachError {
     constructor(status: number, statusText: string, response: any, headers?: RawAxiosResponseHeaders | AxiosResponseHeaders) {
         super(status, statusText, response, headers);
     }
