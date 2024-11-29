@@ -1,14 +1,18 @@
-export class BloomreachError extends Error {
-    private _status: number;
-    private _statusText: string;
-    private _response: any;
+import { AxiosResponseHeaders, RawAxiosResponseHeaders } from "axios";
 
-    constructor(status: number, statusText: string, response: any) {
+export class BloomreachError extends Error {
+    private readonly _status: number;
+    private readonly _statusText: string;
+    private readonly _response: any;
+    private readonly _headers: any;
+
+    constructor(status: number, statusText: string, response: any, headers?: RawAxiosResponseHeaders | AxiosResponseHeaders) {
         super(`${status} - ${statusText} - ${JSON.stringify(response, null, 2)}`);
 
         this._status = status;
         this._statusText = statusText;
         this._response = response;
+        this._headers = headers
     }
 
     getStatus() {
@@ -21,6 +25,10 @@ export class BloomreachError extends Error {
 
     getResponse() {
         return this._response;
+    }
+
+    getHeaders() {
+        return this._headers;
     }
 }
 
