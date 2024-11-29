@@ -1,6 +1,6 @@
-import { BloomreachBadRequest, BloomreachError, BloomreachSuppressionList, BloomreachTemplateNotFound } from '../src/lib/errors';
-import { Auth, sendEmail } from '../src/send-email';
+import { BloomreachBadRequest, BloomreachError, BloomreachSuppressionList, BloomreachTemplateNotFound, Auth, sendEmail } from '../src';
 import nock from 'nock';
+import { BloomReachRateLimited } from '../src/lib/errors';
 
 describe('error handling', () => {
     const username = 'username';
@@ -16,7 +16,7 @@ describe('error handling', () => {
     };
 
     describe('config', () => {
-        it('should thow if username missing', async () => {
+        it('should throw if username missing', async () => {
             expect.assertions(1);
             const auth = {} as Auth;
 
@@ -27,7 +27,7 @@ describe('error handling', () => {
             }
         });
 
-        it('should thow if password missing', async () => {
+        it('should throw if password missing', async () => {
             expect.assertions(1);
             const auth = {
                 username,
@@ -40,7 +40,7 @@ describe('error handling', () => {
             }
         });
 
-        it('should thow if baseurl missing', async () => {
+        it('should throw if baseurl missing', async () => {
             expect.assertions(1);
             const auth = {
                 username,
@@ -54,7 +54,7 @@ describe('error handling', () => {
             }
         });
 
-        it('should thow if project token missing', async () => {
+        it('should throw if project token missing', async () => {
             expect.assertions(1);
             const auth = {
                 username,
@@ -149,7 +149,7 @@ describe('error handling', () => {
             }
         });
 
-        it('should throw BloomreachTemplateNotFound - alternitive message', async () => {
+        it('should throw BloomreachTemplateNotFound - alternative message', async () => {
             expect.assertions(2);
 
             const auth = {
@@ -219,7 +219,7 @@ describe('error handling', () => {
             }
         });
 
-        it('should throw BloomreachSuppressionList - alternitive message', async () => {
+        it('should throw BloomreachSuppressionList - alternative message', async () => {
             expect.assertions(2);
 
             const auth = {
@@ -284,6 +284,31 @@ describe('error handling', () => {
                         2
                     )}`
                 );
+            }
+        });
+
+        it('should throw BloomreachRateLimited on receipt of a 429', async () => {
+            expect.assertions(2);
+
+            const auth = {
+                username,
+                password,
+                baseUrl,
+                projectToken,
+            };
+
+            const headers = {
+                'content-type': 'text/html',
+                'a-header': 'value',
+            };
+
+            nock(baseUrl).post(`/email/v2/projects/${projectToken}/sync`).reply(429, {}, headers);
+
+            try {
+                await sendEmail(auth, campaignName, customerId, emailContent);
+            } catch (error: any) {
+                expect(error).toBeInstanceOf(BloomReachRateLimited);
+                expect(error.getHeaders()).toMatchObject(headers);
             }
         });
     });
