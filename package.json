@@ -51,5 +51,8 @@
         "axios": "^1.6.8"
     },
     "main": "dist/index.js",
-    "types": "dist/index.d.ts"
+    "types": "dist/index.d.ts",
+    "dependencies": {
+        "http-status-codes": "^2.3.0"
+    }
 }

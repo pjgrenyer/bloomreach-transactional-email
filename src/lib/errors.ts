@@ -1,43 +1,58 @@
-export class BloomreachError extends Error {
-    private _status: number;
-    private _statusText: string;
-    private _response: any;
+import { AxiosError, RawAxiosResponseHeaders, AxiosHeaders } from 'axios';
 
-    constructor(status: number, statusText: string, response: any) {
-        super(`${status} - ${statusText} - ${JSON.stringify(response, null, 2)}`);
+export class BloomreachError extends AxiosError {
+    private readonly _message: string;
 
-        this._status = status;
-        this._statusText = statusText;
-        this._response = response;
+    constructor(error: AxiosError) {
+        super(error.message, error.code, error.config, error.request, error.response);
+        const statusCode = error.response?.status;
+        const statusText = error.response?.statusText;
+        const response = error.response?.data ?? error.message;
+        this._message = `${statusCode} - ${statusText} - ${JSON.stringify(response, null, 2)}`;
     }
 
     getStatus() {
-        return this._status;
+        return this.response?.status;
     }
 
     getStatusText() {
-        return this._statusText;
+        return this.response?.statusText;
     }
 
     getResponse() {
-        return this._response;
+        return this.response?.data ?? this.message;
+    }
+
+    getHeaders(): RawAxiosResponseHeaders | (RawAxiosResponseHeaders & AxiosHeaders) | undefined {
+        return this.response?.headers;
+    }
+
+    // Expose the old message that was built for these errors.
+    getCombinedMessage() {
+        return this._message;
     }
 }
 
 export class BloomreachBadRequest extends BloomreachError {
-    constructor(status: number, statusText: string, response: any) {
-        super(status, statusText, response);
+    constructor(error: AxiosError) {
+        super(error);
     }
 }
 
 export class BloomreachTemplateNotFound extends BloomreachBadRequest {
-    constructor(status: number, statusText: string, response: any) {
-        super(status, statusText, response);
+    constructor(error: AxiosError) {
+        super(error);
     }
 }
 
 export class BloomreachSuppressionList extends BloomreachBadRequest {
-    constructor(status: number, statusText: string, response: any) {
-        super(status, statusText, response);
+    constructor(error: AxiosError) {
+        super(error);
+    }
+}
+
+export class BloomReachRateLimited extends BloomreachError {
+    constructor(error: AxiosError) {
+        super(error);
     }
 }
