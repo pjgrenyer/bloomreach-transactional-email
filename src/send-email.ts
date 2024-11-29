@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { StatusCodes } from 'http-status-codes';
 import { BloomreachBadRequest, BloomreachError, BloomReachRateLimited, BloomreachSuppressionList, BloomreachTemplateNotFound } from './lib/errors';
 
 export interface Auth {
@@ -122,17 +123,15 @@ export const sendEmail = async (
         return response.data;
     } catch (error: any) {
         const statusCode = error.response?.status;
-        const statusText = error.response?.statusText;
         const response = error.response?.data ?? error.message;
-        const headers = error.response?.headers;
 
-        if (statusCode === 400) {
+        if (statusCode === StatusCodes.BAD_REQUEST) {
             if (
                 response?.errors?.email_content?.template_id?.find(
                     (mes: string) => mes.toLocaleLowerCase().includes('not found') || mes.toLocaleLowerCase().includes('no such an email design')
                 )
             ) {
-                throw new BloomreachTemplateNotFound(statusCode, statusText, response);
+                throw new BloomreachTemplateNotFound(error);
             } else if (
                 Array.isArray(response?.errors) &&
                 response?.errors?.find(
@@ -141,16 +140,28 @@ export const sendEmail = async (
                         mes.toLocaleLowerCase().includes('email address or domain is in the suppression list')
                 )
             ) {
-                throw new BloomreachSuppressionList(statusCode, statusText, response);
+                throw new BloomreachSuppressionList(error);
             }
-            throw new BloomreachBadRequest(statusCode, statusText, response);
+            throw new BloomreachBadRequest(error);
         }
 
-        if (statusCode === 429) {
-            throw new BloomReachRateLimited(statusCode, statusText, response, headers);
+        if (statusCode === StatusCodes.TOO_MANY_REQUESTS) {
+            throw new BloomReachRateLimited(error);
         }
 
-        throw new BloomreachError(statusCode, statusText, response, headers);
+        // Bloomreach can wrap downstream errors. We identify underlying 429
+        // errors to help with retry logic.
+        if ((statusCode === StatusCodes.BAD_GATEWAY) && (
+          Array.isArray(response?.errors) &&
+          response?.errors?.find(
+            (mes: string) =>
+              mes.toLocaleLowerCase().includes('429 Too Many Requests')
+          )
+        )) {
+            throw new BloomReachRateLimited(error);
+        }
+
+        throw new BloomreachError(error);
     }
 };
 
