@@ -1,4 +1,4 @@
-import { AxiosResponseHeaders, RawAxiosResponseHeaders } from "axios";
+import { AxiosResponseHeaders, RawAxiosResponseHeaders } from 'axios';
 
 export class BloomreachError extends Error {
     private readonly _status: number;
@@ -12,7 +12,7 @@ export class BloomreachError extends Error {
         this._status = status;
         this._statusText = statusText;
         this._response = response;
-        this._headers = headers
+        this._headers = headers;
     }
 
     getStatus() {
