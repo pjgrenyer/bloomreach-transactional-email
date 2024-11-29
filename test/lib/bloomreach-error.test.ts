@@ -1,4 +1,4 @@
-import { BloomreachError } from '../../src/lib/errors';
+import { BloomreachError } from '../../src';
 
 describe('bloomreach error', () => {
     const statusCode = 500;
@@ -23,5 +23,19 @@ describe('bloomreach error', () => {
     it('error message should include all elements', () => {
         const error = new BloomreachError(statusCode, statusText, response);
         expect(error.message).toEqual(`500 - statusText - ${JSON.stringify(response, null, 2)}`);
+    });
+
+    it('should get headers', () => {
+        const headers = {
+            'content-type': 'text/html',
+            'x-random-header': 'set',
+        };
+        const error = new BloomreachError(statusCode, statusText, response, headers);
+        expect(error.getHeaders()).toEqual(headers);
+    });
+
+    it('should handle no headers being set', () => {
+        const error = new BloomreachError(statusCode, statusText, response);
+        expect(error.getHeaders()).toBeUndefined();
     });
 });
