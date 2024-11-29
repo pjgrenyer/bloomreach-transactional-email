@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { BloomreachBadRequest, BloomreachError, BloomreachSuppressionList, BloomreachTemplateNotFound } from './lib/errors';
+import { BloomreachBadRequest, BloomreachError, BloomReachRateLimited, BloomreachSuppressionList, BloomreachTemplateNotFound } from './lib/errors';
 
 export interface Auth {
     username: string;
@@ -144,6 +144,10 @@ export const sendEmail = async (
                 throw new BloomreachSuppressionList(statusCode, statusText, response);
             }
             throw new BloomreachBadRequest(statusCode, statusText, response);
+        }
+
+        if (statusCode === 429) {
+            throw new BloomReachRateLimited(statusCode, statusText, response, headers);
         }
 
         throw new BloomreachError(statusCode, statusText, response, headers);
