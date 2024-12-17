@@ -3,7 +3,6 @@ import { AxiosError, RawAxiosResponseHeaders, AxiosHeaders } from 'axios';
 export class BloomreachError extends AxiosError {
     constructor(error: AxiosError) {
         super(buildMessage(error), error.code, error.config, error.request, error.response);
-
     }
 
     getStatus() {
@@ -20,6 +19,11 @@ export class BloomreachError extends AxiosError {
 
     getHeaders(): RawAxiosResponseHeaders | (RawAxiosResponseHeaders & AxiosHeaders) | undefined {
         return this.response?.headers;
+    }
+
+    // @deprecated, use this.message.
+    getCombinedMessage() {
+        return this.message;
     }
 }
 
@@ -52,4 +56,4 @@ const buildMessage = (error: AxiosError) => {
     const statusText = error.response?.statusText;
     const response = error.response?.data ?? error.message;
     return `${statusCode} - ${statusText} - ${JSON.stringify(response, null, 2)}`;
-}
+};
