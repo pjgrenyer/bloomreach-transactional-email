@@ -32,7 +32,7 @@ describe('bloomreach error', () => {
 
     it('should build a combined message including all relevant elements', () => {
         const error = new BloomreachError(axiosError);
-        expect(error.getCombinedMessage()).toEqual(`500 - statusText - ${JSON.stringify(response.data, null, 2)}`);
+        expect(error.message).toEqual(`500 - statusText - ${JSON.stringify(response.data, null, 2)}`);
     });
 
     it('should get headers', () => {

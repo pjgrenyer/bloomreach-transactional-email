@@ -1,14 +1,8 @@
 import { AxiosError, RawAxiosResponseHeaders, AxiosHeaders } from 'axios';
 
 export class BloomreachError extends AxiosError {
-    private readonly _message: string;
-
     constructor(error: AxiosError) {
-        super(error.message, error.code, error.config, error.request, error.response);
-        const statusCode = error.response?.status;
-        const statusText = error.response?.statusText;
-        const response = error.response?.data ?? error.message;
-        this._message = `${statusCode} - ${statusText} - ${JSON.stringify(response, null, 2)}`;
+        super(buildMessage(error), error.code, error.config, error.request, error.response);
     }
 
     getStatus() {
@@ -27,9 +21,9 @@ export class BloomreachError extends AxiosError {
         return this.response?.headers;
     }
 
-    // Expose the old message that was built for these errors.
+    // @deprecated, use this.message.
     getCombinedMessage() {
-        return this._message;
+        return this.message;
     }
 }
 
@@ -56,3 +50,10 @@ export class BloomReachRateLimited extends BloomreachError {
         super(error);
     }
 }
+
+const buildMessage = (error: AxiosError) => {
+    const statusCode = error.response?.status;
+    const statusText = error.response?.statusText;
+    const response = error.response?.data ?? error.message;
+    return `${statusCode} - ${statusText} - ${JSON.stringify(response, null, 2)}`;
+};
