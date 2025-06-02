@@ -141,9 +141,7 @@ export const sendEmail = async (
                 )
             ) {
                 throw new BloomreachSuppressionList(statusCode, statusText, response);
-            } else if (
-                response?.errors?.email_content?.template_id?.find((mes: string) => mes.toLocaleLowerCase().includes('context deadline exceeded'))
-            ) {
+            } else if (response?.errors?.email_content?.template_id?.find((mes: string) => mes.toLocaleLowerCase().includes('context deadline exceeded'))) {
                 throw new BloomreachContextDeadlineExceeded(statusCode, statusText, response);
             }
             throw new BloomreachBadRequest(statusCode, statusText, response);
