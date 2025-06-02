@@ -41,3 +41,9 @@ export class BloomreachSuppressionList extends BloomreachBadRequest {
         super(status, statusText, response);
     }
 }
+
+export class BloomreachContextDeadlineExceeded extends BloomreachBadRequest {
+    constructor(status: number, statusText: string, response: any) {
+        super(status, statusText, response);
+    }
+}
