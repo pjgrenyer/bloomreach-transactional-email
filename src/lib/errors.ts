@@ -51,6 +51,12 @@ export class BloomReachRateLimited extends BloomreachError {
     }
 }
 
+export class BloomreachContextDeadlineExceeded extends BloomreachError {
+    constructor(error: AxiosError) {
+        super(error);
+    }
+}
+
 const buildMessage = (error: AxiosError) => {
     const statusCode = error.response?.status;
     const statusText = error.response?.statusText;

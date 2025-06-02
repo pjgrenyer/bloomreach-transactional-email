@@ -1,6 +1,13 @@
 import axios from 'axios';
 import { StatusCodes } from 'http-status-codes';
-import { BloomreachBadRequest, BloomreachError, BloomReachRateLimited, BloomreachSuppressionList, BloomreachTemplateNotFound } from './lib/errors';
+import {
+    BloomreachBadRequest,
+    BloomreachContextDeadlineExceeded,
+    BloomreachError,
+    BloomReachRateLimited,
+    BloomreachSuppressionList,
+    BloomreachTemplateNotFound,
+} from './lib/errors';
 
 export interface Auth {
     username: string;
@@ -141,6 +148,8 @@ export const sendEmail = async (
                 )
             ) {
                 throw new BloomreachSuppressionList(error);
+            } else if (response?.errors?.email_content?.template_id?.find((mes: string) => mes.toLocaleLowerCase().includes('context deadline exceeded'))) {
+                throw new BloomreachContextDeadlineExceeded(error);
             }
             throw new BloomreachBadRequest(error);
         }
