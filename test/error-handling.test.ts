@@ -1,6 +1,6 @@
 import { BloomreachBadRequest, BloomreachError, BloomreachSuppressionList, BloomreachTemplateNotFound, Auth, sendEmail } from '../src';
 import nock from 'nock';
-import { BloomReachRateLimited } from '../src/lib/errors';
+import { BloomreachContextDeadlineExceeded, BloomReachRateLimited } from '../src/lib/errors';
 
 describe('error handling', () => {
     const username = 'username';
@@ -177,6 +177,46 @@ describe('error handling', () => {
                             errors: {
                                 email_content: {
                                     template_id: ['Failed to use stored template: no such an email design'],
+                                },
+                            },
+                        },
+                        null,
+                        2
+                    )}`
+                );
+            }
+        });
+
+        it('should throw BloomreachContextDeadlineExceeded', async () => {
+            expect.assertions(2);
+
+            const auth = {
+                username,
+                password,
+                baseUrl,
+                projectToken,
+            };
+
+            nock(baseUrl)
+                .post(`/email/v2/projects/${projectToken}/sync`)
+                .reply(400, {
+                    errors: {
+                        email_content: {
+                            template_id: ['Failed to render the template: content HTML: <method item_by_id of CatalogAccessor object>: context deadline exceeded'],
+                        },
+                    },
+                });
+
+            try {
+                await sendEmail(auth, campaignName, customerId, emailContent);
+            } catch (error: any) {
+                expect(error).toBeInstanceOf(BloomreachContextDeadlineExceeded);
+                expect(error.message).toEqual(
+                    `400 - null - ${JSON.stringify(
+                        {
+                            errors: {
+                                email_content: {
+                                    template_id: ['Failed to render the template: content HTML: <method item_by_id of CatalogAccessor object>: context deadline exceeded'],
                                 },
                             },
                         },
