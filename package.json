@@ -1,6 +1,6 @@
 {
     "name": "bloomreach-transactional-email",
-    "version": "2.1.3",
+    "version": "2.1.4",
     "description": "A nonofficial, feature complete, client library for sending transactional emails via Bloomreach.",
     "scripts": {
         "prepare": "husky install",
@@ -28,14 +28,13 @@
     },
     "homepage": "https://github.com/pjgrenyer/bloomreach-transactional-email#readme",
     "devDependencies": {
-        "@babel/preset-env": "^7.24.3",
+        "@babel/preset-env": "^7.28.0",
         "@babel/preset-typescript": "^7.24.1",
         "@types/jest": "^29.5.12",
         "@types/supertest": "^2.0.16",
         "@typescript-eslint/eslint-plugin": "^5.62.0",
         "@typescript-eslint/parser": "^5.62.0",
         "babel-cli": "^6.26.0",
-        "babel-preset-env": "^1.7.0",
         "cpy-cli": "^4.2.0",
         "dotenv": "^16.4.5",
         "eslint": "^8.57.0",
@@ -44,11 +43,11 @@
         "jest-mock-extended": "^3.0.5",
         "nock": "^13.5.4",
         "prettier": "^2.8.8",
-        "supertest": "^6.3.4",
+        "supertest": "^7.1.4",
         "typescript": "^5.4.3"
     },
     "peerDependencies": {
-        "axios": "^1.6.8"
+        "axios": "^1.11.0"
     },
     "main": "dist/index.js",
     "types": "dist/index.d.ts",
