@@ -28,7 +28,7 @@
     },
     "homepage": "https://github.com/pjgrenyer/bloomreach-transactional-email#readme",
     "devDependencies": {
-        "@babel/preset-env": "^7.24.3",
+        "@babel/preset-env": "^7.28.0",
         "@babel/preset-typescript": "^7.24.1",
         "@types/jest": "^29.5.12",
         "@types/supertest": "^2.0.16",
