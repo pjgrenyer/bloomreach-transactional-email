@@ -7,7 +7,6 @@
         "build": "rimraf dist && tsc",
         "dev": "npm run build && node dist/index.js",
         "test": "jest --coverage --testPathIgnorePatterns='integration.*'",
-        "postbuild": "cpy '**/*' '!**/*.ts' ../dist/ --cwd=src/ --no-overwrite --parents || true",
         "test-integration": "jest --testRegex='integration.*'",
         "format": "prettier --write 'src/**/*.ts' 'test/**/*.ts' './*.js' './*.json' '!./package-lock.json'",
         "lint": "eslint ."
