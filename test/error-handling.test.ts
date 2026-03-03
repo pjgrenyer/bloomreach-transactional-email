@@ -87,7 +87,7 @@ describe('error handling', () => {
                 await sendEmail(auth, campaignName, customerId, emailContent);
             } catch (error: any) {
                 expect(error).toBeInstanceOf(BloomreachError);
-                expect(error.message).toEqual('500 - null - "error!"');
+                expect(error.message).toEqual('500 - Internal Server Error - "error!"');
             }
         });
 
@@ -107,7 +107,7 @@ describe('error handling', () => {
                 await sendEmail(auth, campaignName, customerId, emailContent);
             } catch (error: any) {
                 expect(error).toBeInstanceOf(BloomreachBadRequest);
-                expect(error.message).toEqual('400 - null - "error!"');
+                expect(error.message).toEqual('400 - Bad Request - "error!"');
             }
         });
 
@@ -134,7 +134,7 @@ describe('error handling', () => {
             } catch (error: any) {
                 expect(error).toBeInstanceOf(BloomreachTemplateNotFound);
                 expect(error.message).toEqual(
-                    `400 - null - ${JSON.stringify(
+                    `400 - Bad Request - ${JSON.stringify(
                         {
                             errors: {
                                 email_content: {
@@ -172,7 +172,7 @@ describe('error handling', () => {
             } catch (error: any) {
                 expect(error).toBeInstanceOf(BloomreachTemplateNotFound);
                 expect(error.message).toEqual(
-                    `400 - null - ${JSON.stringify(
+                    `400 - Bad Request - ${JSON.stringify(
                         {
                             errors: {
                                 email_content: {
@@ -212,7 +212,7 @@ describe('error handling', () => {
             } catch (error: any) {
                 expect(error).toBeInstanceOf(BloomreachContextDeadlineExceeded);
                 expect(error.message).toEqual(
-                    `400 - null - ${JSON.stringify(
+                    `400 - Bad Request - ${JSON.stringify(
                         {
                             errors: {
                                 email_content: {
@@ -248,7 +248,7 @@ describe('error handling', () => {
             } catch (error: any) {
                 expect(error).toBeInstanceOf(BloomreachSuppressionList);
                 expect(error.message).toEqual(
-                    `400 - null - ${JSON.stringify(
+                    `400 - Bad Request - ${JSON.stringify(
                         {
                             errors: ['Email address or domain is on the suppression list'],
                         },
@@ -280,7 +280,7 @@ describe('error handling', () => {
             } catch (error: any) {
                 expect(error).toBeInstanceOf(BloomreachSuppressionList);
                 expect(error.message).toEqual(
-                    `400 - null - ${JSON.stringify(
+                    `400 - Bad Request - ${JSON.stringify(
                         {
                             errors: ['Email address or domain is in the suppression list'],
                         },
@@ -314,7 +314,7 @@ describe('error handling', () => {
             } catch (error: any) {
                 expect(error).toBeInstanceOf(BloomreachBadRequest);
                 expect(error.message).toEqual(
-                    `400 - null - ${JSON.stringify(
+                    `400 - Bad Request - ${JSON.stringify(
                         {
                             errors: {
                                 other_error_type: { message: 'Other ErrorType' },
