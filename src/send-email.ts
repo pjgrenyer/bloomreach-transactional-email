@@ -51,13 +51,13 @@ export interface AlphaNumericDictionary {
     [name: string | number]: string | number;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface CustomEventProperties extends AlphaNumericDictionary {}
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface CustomHeaders extends AlphaNumericDictionary {}
 
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface UrlParams extends AlphaNumericDictionary {}
 
 export interface Settings {

@@ -3,14 +3,14 @@
     "version": "2.1.4",
     "description": "A nonofficial, feature complete, client library for sending transactional emails via Bloomreach.",
     "scripts": {
-        "prepare": "husky install",
+        "prepare": "husky",
         "build": "rimraf dist && tsc",
         "dev": "npm run build && node dist/index.js",
         "test": "jest --coverage --testPathIgnorePatterns='integration.*'",
-        "postbuild": "cpy '**/*' '!**/*.ts' ../dist/ --cwd=src/ --no-overwrite --parents",
+        "postbuild": "cpy '**/*' '!**/*.ts' ../dist/ --cwd=src/ --no-overwrite --parents || true",
         "test-integration": "jest --testRegex='integration.*'",
         "format": "prettier --write 'src/**/*.ts' 'test/**/*.ts' './*.js' './*.json' '!./package-lock.json'",
-        "lint": "eslint . --ext .ts"
+        "lint": "eslint ."
     },
     "repository": {
         "type": "git",
